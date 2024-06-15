@@ -1,113 +1,173 @@
-import Image from "next/image";
+"use client";
+import { DropdownBox } from "@/components/dropdown-box";
+import React, { useState } from "react";
+import { GoHomeFill } from "react-icons/go";
+import { IoChevronDownOutline } from "react-icons/io5";
+import { IoChevronForwardOutline } from "react-icons/io5";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { BsGrid } from "react-icons/bs";
+import { Switch } from "@/components/ui/switch";
 
-export default function Home() {
+import { cn } from "@/lib/utils";
+import { Slider } from "@/components/ui/slider";
+import DeviceCard from "@/components/device-card";
+import PowerConsumption from "@/components/power-consumption";
+import CurrentState from "@/components/current-state";
+import { GoPlus } from "react-icons/go";
+
+interface Menu {
+  label: string;
+}
+
+import { IoStatsChart } from "react-icons/io5";
+import { IoSearch } from "react-icons/io5";
+import { IoPlayCircle } from "react-icons/io5";
+
+const Page = () => {
+  const [value, setValue] = useState<number[]>([50]);
+  const [openWindowState, setOpenWindowState] = useState<boolean>(false);
+
+  const handleWindowState = () => {
+    if (openWindowState == false) {
+      setOpenWindowState(true);
+    } else {
+      setOpenWindowState(false);
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="w-full h-screen relative flex items-center px-20 bg-cover bg-center bg-no-repeat bg-[url('https://cdn.dribbble.com/userupload/11848883/file/original-a8eaf749aac4f52d37f7ea8346030f76.jpg?resize=1200x900')]">
+      <div
+        style={{ backgroundColor: `rgba(0, 0, 0, ${1 - value[0] / 100})` }}
+        className="w-full h-screen absolute top-0 left-0 flex gap-5 items-center px-5 bg-cover bg-center bg-no-repeat bg-black"
+      >
+        <div className="p-2 grid grid-cols-1 gap-2 backdrop-blur-lg bg-white/10 rounded-full ">
+          <div
+            style={{
+              backgroundColor: openWindowState ? `rgba(0, 0, 0, 0.3)` : ``,
+            }}
+            className="p-2 rounded-full hover:bg-white/30 duration-300 cursor-pointer"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <GoHomeFill size={20} onClick={handleWindowState} />
+          </div>
+          <div className="p-2 rounded-full hover:bg-white/30 duration-300 cursor-pointer">
+            <IoStatsChart size={18} />
+          </div>
+          <div className="p-2 rounded-full hover:bg-white/30 duration-300 cursor-pointer">
+            <GoPlus size={20} />
+          </div>
+          <div className="p-2 rounded-full hover:bg-white/30 duration-300 cursor-pointer">
+            <IoPlayCircle size={20} />
+          </div>
+          <div className="p-2 rounded-full hover:bg-white/30 duration-300 cursor-pointer">
+            <IoSearch size={20} />
+          </div>
+        </div>
+
+        <div
+          style={{ display: openWindowState ? "block" : "none" }}
+          className="relative"
+        >
+          <div className="w-auto h-auto backdrop-blur-lg bg-white/10 rounded-[30px] p-5">
+            <div className="w-[860px] grid grid-cols-1 gap-5">
+              <div className="flex gap-5">
+                <DeviceCard value={value} setValue={setValue} />
+                <PowerConsumption />
+              </div>
+              <CurrentState />
+
+              <div className="grid grid-cols-4 gap-5">
+                <div className="backdrop-blur-lg bg-white/10 h-full rounded-[24px] p-5">
+                  <div className="flex w-full justify-between items-center">
+                    <div className="w-8 h-8 rounded-full backdrop-blur-lg bg-white/10 flex items-center justify-center">
+                      <BsGrid />
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="mt-8">
+                    <p className="text-[11px] font-light">Gaabor</p>
+                    <p className="text-lg font-medium">Humidifier</p>
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-lg bg-black/40 h-full rounded-[24px] p-5">
+                  <div className="flex w-full justify-between items-center">
+                    <div className="w-8 h-8 rounded-full backdrop-blur-lg bg-white/10 flex items-center justify-center">
+                      <BsGrid />
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="mt-8">
+                    <p className="text-[11px] font-light">Gaabor</p>
+                    <p className="text-lg font-medium">Humidifier</p>
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-lg bg-white/10 h-full rounded-[24px] p-5">
+                  <div className="flex w-full justify-between items-center">
+                    <div className="w-8 h-8 rounded-full backdrop-blur-lg bg-white/10 flex items-center justify-center">
+                      <BsGrid />
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="mt-8">
+                    <p className="text-[11px] font-light">Gaabor</p>
+                    <p className="text-lg font-medium">Humidifier</p>
+                  </div>
+                </div>
+
+                <div className="backdrop-blur-lg bg-black/40 h-full rounded-[24px] p-5">
+                  <div className="flex w-full justify-between items-center">
+                    <div className="w-8 h-8 rounded-full backdrop-blur-lg bg-white/10 flex items-center justify-center">
+                      <BsGrid />
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="mt-8">
+                    <p className="text-[11px] font-light">Gaabor</p>
+                    <p className="text-lg font-medium">Humidifier</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-fit mx-auto flex items-center gap-2.5 p-2.5 backdrop-blur-lg bg-white/10 rounded-full mt-2.5">
+            <div className="backdrop-blur-lg bg-white/10 rounded-full p-2.5 px-5 text-xs font-light">
+              Living room
+            </div>
+            <div className=" rounded-full p-2.5 px-5 text-xs font-light">
+              Bedroom
+            </div>
+            <div className=" rounded-full p-2.5 px-5 text-xs font-light">
+              Kitchen
+            </div>
+            <div className=" rounded-full p-2.5 px-5 text-xs font-light">
+              Backyard
+            </div>
+            <div className=" rounded-full p-2.5 px-5 text-xs font-light">
+              Garage
+            </div>
+
+            <div className="w-10 h-10 -my-1 flex items-center justify-center backdrop-blur-lg bg-white/10 rounded-full text-xs font-light">
+              <GoPlus size={20} />
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{ display: openWindowState ? "grid" : "none" }}
+          className="p-2 grid grid-cols-1 gap-2 backdrop-blur-lg bg-white/10 rounded-full -ml-2.5"
+        >
+          <div className="p-2 rounded-full backdrop-blur-lg bg-white/10 cursor-pointer">
+            <IoChevronBackOutline onClick={handleWindowState} size={20} />
+          </div>
+          <div className="p-2 rounded-full backdrop-blur-lg bg-white/10 cursor-pointer">
+            <IoChevronForwardOutline size={20} />
+          </div>
         </div>
       </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default Page;
